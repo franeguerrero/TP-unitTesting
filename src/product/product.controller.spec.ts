@@ -40,6 +40,11 @@ describe('ProductController', () => {
 
       expect(controller.findOne('1')).toEqual(product);
     });
+    it('should return null', ()=> {
+      jest.spyOn(service, 'findOne').mockReturnValue(null);
+
+      expect(controller.findOne('1')).toEqual(null);
+    });
   });
 
   describe('create', () => {
