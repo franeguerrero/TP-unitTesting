@@ -15,10 +15,52 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+
+  it('/product (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/product')
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        expect(res.body[0].id).toBe(1);
+      });
+  });
+
+  it('/product (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/product/1')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.id).toBe(1);
+      });
+  });
+
+
+  it('/product (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/product')
+      .send({ id: 4, name: 'Gucci', description: "Zapatos" })
+      .expect(201)
+      .expect((res) => {
+        expect(res.body.id).toBe(4);
+      });
+  });
+
+  it('/product (PUT)', () => {
+    return request(app.getHttpServer())
+      .put('/product/1')
+      .send({ name: 'Producto 1 nuevo'})
+      .expect(200)      
+      .expect((res) => {
+        expect(res.body.name).toBe('Producto 1 nuevo');
+      });
+  });
+
+  it('/product (DELETE)', () => {
+    return request(app.getHttpServer())
+      .delete('/product/1')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.name).toBe('Nike Air Max');
+      });
   });
 });
